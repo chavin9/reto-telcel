@@ -5,8 +5,8 @@
   <tr v-for="radiobase in radiobases" :key="id">
 
     <th>{{radiobase}}</th>
-    <td v-for="radiobase in radiobases" :key="id">
-         {{radiobase}}</td>
+    <td v-for="fechas in fechas" :key="id">
+         {{fechas}}</td>
   </tr>
   
   
@@ -36,15 +36,17 @@ export default {
       esMenor40_90: null,
       mayor_90: null,
       radiobases: [],
-      trafico:[]
+      trafico:[],
+      fechas:[]
     }
   },
   mounted(){
-    axios.get('http://localhost:4000/telcel')
+    axios.get('http://localhost:4001/telcel')
     .then(res => {
       console.log('res',res)
       this.radiobases = res.data[2]
-      this.trafico = res.data[1]
+      this.trafico = res.data[0]
+      this.fechas = res.data[1][1]
       console.log('radiobases', this.radiobases)
     })
   },
