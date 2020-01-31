@@ -1,13 +1,28 @@
 <template>
   <div id="app">
     <h1>hola vue</h1>
-    <table style="width:100%">
-  <tr v-for="radiobase in radiobases" :key="id">
-
-    <th>{{radiobase}}</th>
-    <td v-for="fechas in fechas" :key="id">
-         {{fechas}}</td>
+    <div class="tabla">
+      <div>
+         <h3>radiobases</h3>
+      <ul v-for="radiobase in radiobases" :key="id" >
+            {{radiobase.RADIOBASE}}
+      </ul>
+      </div>
+      <div>
+         <h3>dia1</h3>
+      <ul v-for="trafico in traficos1" :key="id" >
+        {{trafico}}
+      </ul>
+      </div>
+    </div>
+  <!-- <tr v-for="radiobase in radiobases" :key="id" >
   </tr>
+  <tr v-for="elemento in elementos1" :key="id">
+      {{elemento}}
+    </tr> -->
+   
+    <!-- <t> {{elemento.FECHA}}</tr>
+    <td>{{elemento.TRAFICO}} </td> -->
   
   
   
@@ -21,7 +36,7 @@
     </td>
   </tr> -->
   
-</table>
+<!-- </table> -->
   </div>
 </template>
 
@@ -35,19 +50,19 @@ export default {
       esMenor15_40: null,
       esMenor40_90: null,
       mayor_90: null,
-      radiobases: [],
-      trafico:[],
-      fechas:[]
+      traficos1:[],
+      
     }
   },
   mounted(){
     axios.get('http://localhost:4001/telcel')
     .then(res => {
       console.log('res',res)
-      this.radiobases = res.data[2]
-      this.trafico = res.data[0]
-      this.fechas = res.data[1][1]
-      console.log('radiobases', this.radiobases)
+      this.radiobases = res.data[0]
+      this.traficos1 = res.data[1][0]
+      console.log('elementos1',this.traficos1)
+      
+      //console.log(this.elementos)
     })
   },
 
@@ -79,5 +94,11 @@ export default {
 
 .mayor-15{
   background-color: red;
+}
+
+.tabla{
+  display: flex;
+  flex-direction: row;
+
 }
 </style>
