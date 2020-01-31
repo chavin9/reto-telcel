@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>hola vue</h1>
     <div class="tabla">
       <div>
          <h3>radiobases</h3>
@@ -11,32 +10,56 @@
       <div>
          <h3>dia1</h3>
       <ul v-for="trafico in traficos1" :key="id" >
-        {{trafico}}
+        <span  v-if="trafico.FECHA == '2019-08-23'" >
+          <div :class="{'rojo' : (trafico.TRAFICO <= 15),
+                        'naranja': (trafico.TRAFICO > 15 && trafico.TRAFICO <= 40),
+                         'amarillo': (trafico.TRAFICO > 40 && trafico.TRAFICO <= 90),
+                         'verde': (trafico.TRAFICO > 90 ),
+                         'gris': (trafico.TRAFICO===0),
+                         }"> 
+                        {{trafico.TRAFICO}}
+          </div>
+        </span>
+      </ul>
+      </div>
+      <div>
+         <h3>dia2</h3>
+      <ul v-for="trafico in traficos1" :key="id" >
+        <span  v-if="trafico.FECHA == '2019-08-25'" >
+          
+
+   <div :class="{'rojo' : (trafico.TRAFICO <= 15),
+                        'naranja': (trafico.TRAFICO > 15 && trafico.TRAFICO <= 40),
+                         'amarillo': (trafico.TRAFICO > 40 && trafico.TRAFICO <= 90),
+                         'verde': (trafico.TRAFICO > 90 ),
+                         'gris': (trafico.TRAFICO===0),
+                         }"> 
+            {{trafico.TRAFICO}}
+
+          </div>
+
+
+
+        </span>
+      </ul>
+      </div>
+      <div>
+         <h3>dia3</h3>
+      <ul v-for="trafico in traficos1" :key="id" >
+        <span  v-if="trafico.FECHA == '2019-08-27'" >
+            {{trafico.TRAFICO}}
+        </span>
+      </ul>
+      </div>
+      <div>
+         <h3>dia4</h3>
+      <ul v-for="trafico in traficos1" :key="id" >
+        <span  v-if="trafico.FECHA == '2019-08-29'" :class="indicador" >
+            {{trafico.TRAFICO}}
+        </span>
       </ul>
       </div>
     </div>
-  <!-- <tr v-for="radiobase in radiobases" :key="id" >
-  </tr>
-  <tr v-for="elemento in elementos1" :key="id">
-      {{elemento}}
-    </tr> -->
-   
-    <!-- <t> {{elemento.FECHA}}</tr>
-    <td>{{elemento.TRAFICO}} </td> -->
-  
-  
-  
-
-    
-    
-
-  <!-- <tr >
-    <td v-for="radiobase in radiobases" :key="radio">
-     {{radiobase.radio1}}
-    </td>
-  </tr> -->
-  
-<!-- </table> -->
   </div>
 </template>
 
@@ -46,11 +69,15 @@ import axios from 'axios'
 export default {
   data() {
     return {
+       isActive: true,
+      hasError: false,
       esMenor0_15: null,
       esMenor15_40: null,
       esMenor40_90: null,
       mayor_90: null,
-      traficos1:[],
+      traficos1:null,
+      radiobases:[],
+      
       
     }
   },
@@ -58,13 +85,21 @@ export default {
     axios.get('http://localhost:4001/telcel')
     .then(res => {
       console.log('res',res)
-      this.radiobases = res.data[0]
-      this.traficos1 = res.data[1][0]
+      this.radiobases = res.data
+      this.traficos1 = res.data
       console.log('elementos1',this.traficos1)
       
       //console.log(this.elementos)
     })
   },
+  computed: {
+  classObject: function () {
+    return {
+      active: this.isActive && !this.error,
+      'text-danger': this.error && this.error.type === 'fatal'
+    }
+  }
+}
 
   
   
@@ -92,8 +127,9 @@ export default {
   color: #42b983;
 }
 
-.mayor-15{
+.mayor15{
   background-color: red;
+  color: black;
 }
 
 .tabla{
@@ -101,4 +137,24 @@ export default {
   flex-direction: row;
 
 }
+
+.rojo{
+  background-color: red;
+}
+.naranja{
+  background-color: orange;
+}
+.amarillo{
+  background-color: yellow;
+}
+.verde{
+  background-color: green;
+
+}
+.gris{
+  background-color: grey;
+}
+
+
+
 </style>
