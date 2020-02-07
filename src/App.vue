@@ -198,7 +198,7 @@ export default {
     }
   },
   mounted(){
-    axios.get('http://localhost:4002/telcel')
+    axios.get('https://pure-tor-51046.herokuapp.com/telcel')
     .then(res => {
       console.log('res',res)
       this.radiobases = res.data[1]
